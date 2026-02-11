@@ -4,8 +4,8 @@ from datetime import datetime
 from ta.trend import EMAIndicator
 from ta.momentum import RSIIndicator
 
-TOKEN = "PUT_YOUR_TELEGRAM_TOKEN"
-CHAT_ID = "PUT_YOUR_CHAT_ID"
+TOKEN = "8415329017:AAHiQZhJ8UA9SYGKTS4ajgQdGb9yfGM9N6Q"
+CHAT_ID = "5225146258"
 
 def send(msg):
     url=f"https://api.telegram.org/bot{TOKEN}/sendMessage"
