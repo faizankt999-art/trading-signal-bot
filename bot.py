@@ -52,11 +52,18 @@ def signal_logic(df):
 
     return None,None
 
-pairs=["BTCUSDT","ETHUSDT","BNBUSDT"]
+pairs = ["BTCUSDT","ETHUSDT","BNBUSDT"]
 
 for pair in pairs:
-    df=get_crypto(pair)
-    sig,rsi=signal_logic(df)
+    df = get_crypto(pair)
+
+    # prevent crash
+    if df is None or len(df) < 50:
+        print("Skipping", pair)
+        continue
+
+    sig, rsi = signal_logic(df)
+
     if sig:
-        msg=f"{pair} {sig}\nRSI:{rsi}\nTime:{datetime.utcnow().strftime('%H:%M')}"
+        msg = f"{pair} {sig}\nRSI:{rsi}\nTime:{datetime.utcnow()}"
         send(msg)
