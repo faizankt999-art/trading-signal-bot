@@ -13,7 +13,7 @@ def send(msg):
 
 def get_crypto(pair):
     try:
-        url = f"https://api.binance.com/api/v3/klines?symbol={pair}&interval=5m&limit=100"
+        url = f"https://api.binance.com/api/v3/klines?symbol={pair}&interval=5m&limit=150"
         data = requests.get(url, timeout=10).json()
 
         # Check if API failed
