@@ -8,9 +8,12 @@ TOKEN = "8415329017:AAHiQZhJ8UA9SYGKTS4ajgQdGb9yfGM9N6Q"
 CHAT_ID = "5225146258"
 
 def send(msg):
-    url=f"https://api.telegram.org/bot{TOKEN}/sendMessage"
-    requests.post(url,data={"chat_id":CHAT_ID,"text":msg})
-
+    try:
+        url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+        r = requests.post(url, data={"chat_id": CHAT_ID, "text": msg}, timeout=10)
+        print("Telegram:", r.text)
+    except Exception as e:
+        print("Telegram error:", e)
 def get_crypto(pair):
     try:
         url = f"https://api.binance.com/api/v3/klines?symbol={pair}&interval=5m&limit=150"
