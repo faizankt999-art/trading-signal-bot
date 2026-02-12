@@ -12,11 +12,30 @@ def send(msg):
     requests.post(url,data={"chat_id":CHAT_ID,"text":msg})
 
 def get_crypto(pair):
-    url=f"https://api.binance.com/api/v3/klines?symbol={pair}&interval=5m&limit=150"
-    data=requests.get(url).json()
-    df=pd.DataFrame(data)
-    df['close']=df[4].astype(float)
-    return df[['close']]
+    try:
+        url = f"https://api.binance.com/api/v3/klines?symbol={pair}&interval=5m&limit=100"
+        data = requests.get(url, timeout=10).json()
+
+        # Check if API failed
+        if not isinstance(data, list):
+            print("API returned error:", data)
+            return None
+
+        # Convert to dataframe correctly
+        df = pd.DataFrame(data, columns=[
+            "time","open","high","low","close","volume",
+            "ct","qav","num_trades","taker_base","taker_quote","ignore"
+        ])
+
+        df["close"] = df["close"].astype(float)
+        df["high"] = df["high"].astype(float)
+        df["low"] = df["low"].astype(float)
+
+        return df
+
+    except Exception as e:
+        print("DATA ERROR:", e)
+        return None
 
 def signal_logic(df):
     ema9 = EMAIndicator(df['close'],9).ema_indicator()
